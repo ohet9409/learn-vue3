@@ -2,6 +2,8 @@
   <div>
     <main>
       <div class="container py-4">
+        <PostCreate @create-post="createPost"></PostCreate>
+        <hr class="my-4" />
         <div class="row g-3">
           <div class="col-4 col" v-for="post in posts" :key="post.id">
             <app-card
@@ -12,17 +14,44 @@
             ></app-card>
           </div>
         </div>
+        <hr class="my-4" />
+        <label>
+          <!-- <LabelInput
+            :model-value="username"
+            @update:model-value="(value) => (username = value)"
+          ></LabelInput> -->
+          <!-- 이름
+          <input type="text" v-model="username" /> -->
+          <LabelInput v-model="username" label="이름"></LabelInput>
+          <LabelTitle v-model:title="title" label="제목"></LabelTitle>
+          <Username
+            v-model:firstName="firstName"
+            v-model:lastName="lastName"
+          ></Username>
+        </label>
       </div>
     </main>
   </div>
 </template>
 
 <script>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import AppCard from "./AppCard.vue";
+import LabelInput from "./LabelInput.vue";
+import LabelTitle from "./LabelTitle.vue";
+import PostCreate from "./PostCreate.vue";
+import Username from "./Username.vue";
 export default {
-  components: { AppCard },
+  components: { AppCard, PostCreate, LabelInput, LabelTitle, Username },
   setup() {
+    const username = ref("");
+    console.log(username.value);
+
+    const title = ref("");
+
+    const firstName = ref("");
+    const lastName = ref("");
+
     const post = reactive({
       title: "제목2",
       contents: "내용2",
@@ -48,7 +77,18 @@ export default {
       },
     ]);
 
-    return { post, posts };
+    // const createPost = (a, b, c, d) => {
+    //   console.log("createPost", a, b, c, d);
+    // };
+
+    // const createPost = (newTitle) => {
+    //   console.log("createPost", newTitle);
+    // };
+
+    const createPost = (newPost) => {
+      console.log("newPost: ", newPost);
+    };
+    return { post, posts, createPost, username, title, firstName, lastName };
   },
 };
 </script>
