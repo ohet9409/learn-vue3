@@ -27,6 +27,7 @@
           <Username
             v-model:firstName="firstName"
             v-model:lastName="lastName"
+            @update:firstName="updateN"
           ></Username>
         </label>
       </div>
@@ -88,7 +89,20 @@ export default {
     const createPost = (newPost) => {
       console.log("newPost: ", newPost);
     };
-    return { post, posts, createPost, username, title, firstName, lastName };
+    const updateN = (val) => {
+      firstName.value = val;
+      console.log("firstName: ", firstName.value);
+    };
+    return {
+      post,
+      posts,
+      createPost,
+      username,
+      title,
+      firstName,
+      lastName,
+      updateN,
+    };
   },
 };
 </script>
