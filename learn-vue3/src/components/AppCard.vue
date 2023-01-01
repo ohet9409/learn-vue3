@@ -1,59 +1,28 @@
 <template>
-  <div>
-    <div class="card">
-      <div class="card-body">
-        <!-- type: news, notice -->
-        <span class="badge rounded-pill text-bg-secondary">{{ typeName }}</span>
-        <h5 class="card-title mt-2">{{ title }}</h5>
-        <p class="card-text">
-          {{ contents }}
-        </p>
-
-        <a href="#" class="btn" :class="isLikeClass" @click="toggleLike"
-          >좋아요</a
-        >
-      </div>
+  <div class="card">
+    <div class="card-header" v-if="$slots.header">
+      <slot name="header" header-message="헤더 메시지"> #header </slot>
+    </div>
+    <div class="card-body" v-if="$slots.default">
+      <slot :child-message="childMessage" hello-message="안녕하세요"
+        >#body</slot
+      >
+    </div>
+    <div class="card-footer text-muted" v-if="$slots.footer">
+      <slot name="footer" footer-message="푸터 메시지">#footer</slot>
     </div>
   </div>
+  {{ hasFooter }}
 </template>
 
 <script>
-import { computed } from "@vue/runtime-core";
+import { computed, ref } from "vue";
+
 export default {
-  props: {
-    type: {
-      type: String,
-      defaulte: "news",
-      validator: (value) => {
-        return ["news", "notice"].includes(value);
-      },
-    },
-    title: {
-      type: String,
-      required: true,
-    },
-    contents: {
-      type: String,
-      required: true,
-    },
-    isLike: {
-      type: Boolean,
-      defaulte: false,
-    },
-  },
-  setup(props) {
-    const isLikeClass = computed(() => {
-      return props.isLike === true ? "btn-danger" : "btn-outline-danger";
-    });
-
-    const typeName = computed(() => {
-      return props.type === "news" ? "뉴스" : "공지사항";
-    });
-
-    const toggleLike = () => {
-      props.isLike = !props.isLike;
-    };
-    return { isLikeClass, typeName, toggleLike };
+  setup(props, context) {
+    const childMessage = ref("자식 컴포넌트 메세지");
+    const hasFooter = computed(() => !!context.slots.footer);
+    return { childMessage, hasFooter };
   },
 };
 </script>

@@ -43,13 +43,13 @@
 
 <script>
 import { reactive, ref } from "vue";
-import AppCard from "./AppCard.vue";
+import PostItem from "./PostItem.vue";
 import LabelInput from "./LabelInput.vue";
 import LabelTitle from "./LabelTitle.vue";
 import PostCreate from "./PostCreate.vue";
 import Username from "./Username.vue";
 export default {
-  components: { AppCard, PostCreate, LabelInput, LabelTitle, Username },
+  components: { PostItem, PostCreate, LabelInput, LabelTitle, Username },
   setup() {
     const username = ref("");
     console.log(username.value);
